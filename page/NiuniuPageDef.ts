@@ -29,11 +29,7 @@ module gameniuniu.page {
 		static myinit(str: string) {
 			super.myinit(str);
 			NiuniuClip.init();
-			if (WebConfig.baseplatform == PageDef.BASE_PLATFORM_TYPE_NQP) {
-				PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU] = NiuNiuPage;
-			} else {
-				PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU] = NiuNiuPageOld;
-			}
+			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU] = NiuNiuPage;
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_MAP] = NiuNiuMapPage;
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_BEGIN] = NiuNiuBeginPage;
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_WIN] = NiuNiuWinPage;
