@@ -3,7 +3,7 @@
 */
 module gameniuniu.page {
 	export class NiuNiuPageOld extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.niuniu.QiangZhuangNN_HUDUI;
+		private _viewUI: ui.nqp.game_ui.niuniu.QiangZhuangNN_HUDUI;
 		private _difenTmep: any = [1, 10, 50, 100];
 		private _leastTmep: any = [20, 200, 500, 1000];
 		private _player: any;

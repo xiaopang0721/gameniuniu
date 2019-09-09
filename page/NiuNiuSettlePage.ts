@@ -3,7 +3,7 @@
 */
 module gameniuniu.page {
 	export class NiuNiuSettlePage extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.niuniu.JieSuanUI;
+		private _viewUI: ui.nqp.game_ui.niuniu.JieSuanUI;
 		private _niuMgr: NiuMgr;
 		private _niuStory: NiuniuCardRoomStory;
 
@@ -90,7 +90,7 @@ module gameniuniu.page {
 		}
 	}
 
-	class ListRecordItem extends ui.game_ui.niuniu.component.JieSuanCardRenderUI {
+	class ListRecordItem extends ui.nqp.game_ui.niuniu.component.JieSuanCardRenderUI {
 		private _game: Game;
 		private _data: any;
 		setData(game: Game, data: any) {
