@@ -63,7 +63,7 @@ module gameniuniu.story {
 
 		private createObj() {
 			let card = this._game.sceneObjectMgr.createOfflineObject(SceneRoot.CARD_MARK, NiuData) as NiuData;
-			card.pos = new Vector2(965, 220);
+			card.pos = new Vector2(980, 200);
 			return card;
 		}
 
