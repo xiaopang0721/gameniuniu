@@ -1266,9 +1266,7 @@ module gameniuniu.page {
                     }
                     this._game.playSound(Path_game_niuniu.music_niuniu + "pingpaiwancheng.mp3", false);
                     this._niuMgr.gaipai();
-                    // Laya.timer.once(500, this, () => {
-                    //     this._viewUI.img_yiwancheng.visible = true;
-                    // })
+                    this._niuStory.isGaiPai = true;
                     this._game.network.call_niuniu_pinpai();
                     this._viewUI.box_matchPoint.visible = false;
                     this._viewUI.box_btn.visible = false;
@@ -1284,9 +1282,7 @@ module gameniuniu.page {
                     }
                     this._game.playSound(Path_game_niuniu.music_niuniu + "pingpaiwancheng.mp3", false);
                     this._niuMgr.gaipai();
-                    // Laya.timer.once(500, this, () => {
-                    //     this._viewUI.img_yiwancheng.visible = true;
-                    // })
+                    this._niuStory.isGaiPai = true;
                     this._game.network.call_niuniu_pinpai();
                     this._viewUI.box_matchPoint.visible = false;
                     this._viewUI.box_btn.visible = false;
