@@ -105,13 +105,13 @@ module gameniuniu.page {
 			this.lab_jifen.text = this._data.jiFen.toString();
 			this.lab_totalJiFen.text = this._data.totalJiFen.toString();
 			this.lab_cardtype.text = this._data.cardtype;
-			this.lab_name.color = this._data.isMain ? "#cc90ff" : "#ffffff";
-			this.lab_difen.color = this._data.isMain ? "#cc90ff" : "#ffffff";
-			this.lab_betRate.color = this._data.isMain ? "#cc90ff" : "#ffffff";
-			this.lab_jifen.color = parseFloat(this._data.jiFen) >= 0 ? "#069e00" : "#ff0000";
-			this.lab_totalJiFen.color = parseFloat(this._data.totalJiFen) >= 0 ? "#069e00" : "#ff0000";
-			this.lab_bankerRate.color = this._data.isMain ? "#cc90ff" : "#ffffff";
-			this.lab_cardtype.color = this._data.isMain ? "#cc90ff" : "#ffffff";
+			this.lab_name.color = this._data.isMain ? TeaStyle.COLOR_JIESUAN : TeaStyle.COLOR_WHITE;
+			this.lab_difen.color = this._data.isMain ? TeaStyle.COLOR_JIESUAN : TeaStyle.COLOR_WHITE;
+			this.lab_betRate.color = this._data.isMain ? TeaStyle.COLOR_JIESUAN : TeaStyle.COLOR_WHITE;
+			this.lab_jifen.color = parseFloat(this._data.jiFen) >= 0 ? TeaStyle.COLOR_GREEN : TeaStyle.COLOR_RED;
+			this.lab_totalJiFen.color = parseFloat(this._data.totalJiFen) >= 0 ? TeaStyle.COLOR_GREEN : TeaStyle.COLOR_RED;
+			this.lab_bankerRate.color = this._data.isMain ? TeaStyle.COLOR_JIESUAN : TeaStyle.COLOR_WHITE;
+			this.lab_cardtype.color = this._data.isMain ? TeaStyle.COLOR_JIESUAN : TeaStyle.COLOR_WHITE;
 		}
 
 		destroy() {
