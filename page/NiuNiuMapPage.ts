@@ -90,9 +90,9 @@ module gameniuniu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
                 Path_game_niuniu.ui_niuniu + "sk/qznn_0.png",
-				Path_game_niuniu.ui_niuniu + "sk/qznn_1.png",
-				Path_game_niuniu.ui_niuniu + "sk/qznn_2.png",
-				Path_game_niuniu.ui_niuniu + "sk/qznn_3.png",
+                Path_game_niuniu.ui_niuniu + "sk/qznn_1.png",
+                Path_game_niuniu.ui_niuniu + "sk/qznn_2.png",
+                Path_game_niuniu.ui_niuniu + "sk/qznn_3.png",
             ];
         }
 
@@ -115,6 +115,7 @@ module gameniuniu.page {
         // 页面打开时执行函数
         protected onOpen(): void {
             super.onOpen();
+            this.initBeiClip();
             //是否断线重连
             if (this._niuStory instanceof gamecomponent.story.StoryRoomCardBase) {
                 this.onUpdateMapInfo();
@@ -170,6 +171,31 @@ module gameniuniu.page {
 
             this._game.network.addHanlder(Protocols.SMSG_OPERATION_FAILED, this, this.onOptHandler);
             this._game.mainScene && this._game.mainScene.on(SceneOperator.AVATAR_MOUSE_CLICK_HIT, this, this.onUpdatePoint);
+        }
+
+        //倍数
+        private _beiClip1: ClipUtil;
+        private _beiClip2: ClipUtil;
+        private _beiClip3: ClipUtil;
+        private _beiClip4: ClipUtil;
+        initBeiClip(): void {
+            for (let i = 1; i < 5; i++) {
+                this["_beiClip" + i] = new ClipUtil(ClipUtil.BEI_FONT);
+                this["_beiClip" + i].centerX = this._viewUI["clip_betRate" + i].centerX;
+                this["_beiClip" + i].centerY = this._viewUI["clip_betRate" + i].centerY;
+                this._viewUI["clip_betRate" + i].parent.addChild(this["_beiClip" + i]);
+                this._viewUI["clip_betRate" + i].visible = false;
+            }
+        }
+
+        clearBeiClip(): void {
+            for (let i = 1; i < 5; i++) {
+                if (this["_beiClip" + i]) {
+                    this["_beiClip" + i].removeSelf();
+                    this["_beiClip" + i].destroy();
+                    this["_beiClip" + i] = null;
+                }
+            }
         }
 
         //帧间隔心跳
@@ -596,21 +622,25 @@ module gameniuniu.page {
             maxBetRate = maxBetRate > 15 ? 15 : maxBetRate == 0 ? 1 : maxBetRate;
             if (this.isCardRoomType) maxBetRate = 15;
             this._betList = RATE_LIST[maxBetRate.toString()]
-            this._viewUI.btn_betRate1.label = this._betList[0] + "倍";
+            // this._viewUI.btn_betRate1.label = this._betList[0] + "倍";
+            this._beiClip1.setText(this._betList[0], true);
             if (this._betList[1]) {
-                this._viewUI.btn_betRate2.label = this._betList[1] + "倍";
+                // this._viewUI.btn_betRate2.label = this._betList[1] + "倍";
+                this._beiClip2.setText(this._betList[1], true);
                 this._viewUI.btn_betRate2.visible = true;
             } else {
                 this._viewUI.btn_betRate2.visible = false;
             }
             if (this._betList[2]) {
-                this._viewUI.btn_betRate3.label = this._betList[2] + "倍";
+                // this._viewUI.btn_betRate3.label = this._betList[2] + "倍";
+                this._beiClip3.setText(this._betList[2], true);
                 this._viewUI.btn_betRate3.visible = true;
             } else {
                 this._viewUI.btn_betRate3.visible = false;
             }
             if (this._betList[3]) {
-                this._viewUI.btn_betRate4.label = this._betList[3] + "倍";
+                // this._viewUI.btn_betRate4.label = this._betList[3] + "倍";
+                this._beiClip4.setText(this._betList[3], true);
                 this._viewUI.btn_betRate4.visible = true;
             } else {
                 this._viewUI.btn_betRate4.visible = false;
@@ -1699,6 +1729,7 @@ module gameniuniu.page {
                 this._game.stopAllSound();
                 this._game.stopMusic();
                 this._kuangView && this._kuangView.removeSelf();
+                this.clearBeiClip();
             }
             super.close();
         }
