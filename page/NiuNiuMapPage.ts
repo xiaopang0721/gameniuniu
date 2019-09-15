@@ -85,6 +85,7 @@ module gameniuniu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "touxiang.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "qifu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "dating.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "qz.atlas",
                 Path_game_niuniu.atlas_game_ui + "niuniu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/suiji.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
@@ -441,6 +442,7 @@ module gameniuniu.page {
                             this._playerList[index].box_notBet.visible = false;
                             this._playerList[index].img_bankerRate.skin = StringU.substitute(Path_game_niuniu.ui_niuniu + "bei_{0}.png", this._bankerRateList[index]);
                             this._playerList[index].view_icon.img_banker.visible = true;
+                            this._playerList[index].view_icon.img_banker.ani1.play(0, false);
                         }
                         if (unit.GetIndex() == idx)
                             this._viewUI.box_betRate.visible = false;
@@ -603,6 +605,7 @@ module gameniuniu.page {
                     Laya.timer.once(1000, this, () => {
                         this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
                         this._playerList[this._bankerIndex].view_icon.img_banker.visible = true;
+                        this._playerList[this._bankerIndex].view_icon.img_banker.ani1.play(0, false);
                     })
                     Laya.timer.clear(this, this.ranEffPos);
                     return;
@@ -795,6 +798,7 @@ module gameniuniu.page {
                     Laya.timer.once(1000, this, () => {
                         this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
                         this._playerList[zhuangIndex].view_icon.img_banker.visible = true;
+                        this._playerList[zhuangIndex].view_icon.img_banker.ani1.play(0, false);
                     })
                 }
             } else {
