@@ -334,8 +334,7 @@ module gameniuniu.page {
 
         //更新发牌动画
         private onUpdateAniDeal(status: number): void {
-            this._viewUI.ani_deal.ani1.stop();
-            this._viewUI.ani_deal.visible = false;
+            this._viewUI.paixie.ani2.gotoAndStop(0);
         }
 
         private onWashCardOver(): void {
@@ -1096,7 +1095,6 @@ module gameniuniu.page {
             if (this._curStatus != MAP_STATUS.PLAY_STATUS_MATCH_POINT) {
                 this._viewUI.box_matchPoint.visible = false;
             }
-            this._viewUI.ani_deal.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_PUSH_CARD && this._niuStory.isFaPai == 1;
             this._isPlaying = this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE && this._curStatus < MAP_STATUS.PLAY_STATUS_SHOW_GAME;
             //房卡按钮屏蔽
             this._viewUI.view_card.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_CREATED || this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_WAIT;
@@ -1155,7 +1153,7 @@ module gameniuniu.page {
                     this._viewUI.txt_status.text = "开始下注";
                     break;
                 case MAP_STATUS.PLAY_STATUS_PUSH_CARD:// 发牌阶段
-                    this._viewUI.ani_deal.ani1.play(0, true);
+                    this._viewUI.paixie.ani2.play(0, true);
                     this._viewUI.box_bankerRate.visible = false;
                     this._viewUI.box_betRate.visible = false;
                     this._viewUI.box_tips.visible = false;
@@ -1547,8 +1545,7 @@ module gameniuniu.page {
             this._viewUI.box_xinshou.visible = false;
             this._viewUI.box_id.visible = false;
             this._viewUI.xipai.visible = false;
-            this._viewUI.ani_deal.visible = false;
-            this._viewUI.ani_deal.ani1.stop();
+            this._viewUI.paixie.ani2.gotoAndStop(0);
             this._viewUI.paixie.cards.visible = false;
             this._viewUI.paixie.ani_chupai.stop();
             this._viewUI.box_menu.visible = false;
