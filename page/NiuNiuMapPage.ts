@@ -111,7 +111,8 @@ module gameniuniu.page {
                 this._niuMgr.on(NiuMgr.DEAL_OVER, this, this.onUpdateAniDeal);
             }
             this._game.playMusic(Path_game_niuniu.music_niuniu + "nn_bgm.mp3");
-            this._viewUI.btn_spread.left = this._game.isFullScreen ? 25 : 10;
+            this._viewUI.btn_spread.left = this._game.isFullScreen ? 30 : 10;
+            this._viewUI.box_menu.left = this._game.isFullScreen ? 25 : 10;
         }
 
         // 页面打开时执行函数
