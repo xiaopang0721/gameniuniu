@@ -732,7 +732,6 @@ module gameniuniu.page {
         private onBattleBet(info: any): void {
             let index = this.getUnitUIPos(info.SeatIndex);
             this._playerList[index].box_betRate.visible = true;
-            this._betTemps[info.SeatIndex - 1] = info.BetVal;
             this.setBetRate(index, info.BetVal);
         }
 
@@ -749,7 +748,6 @@ module gameniuniu.page {
         }
 
         private onBattleSettle(info: any): void {
-            this._settleInfo[info.SeatIndex - 1] = info.SettleVal;
             if (this._game.sceneObjectMgr.mainUnit.GetIndex() == info.SeatIndex) {
                 this._mainPlayerBenefit = parseFloat(info.SettleVal);
             }
@@ -772,7 +770,7 @@ module gameniuniu.page {
                 }
             }
         }
-        
+
         private getUnitCount() {
             let count: number = 0;
             let unitDic = this._game.sceneObjectMgr.unitDic;
@@ -791,7 +789,6 @@ module gameniuniu.page {
             let begin = this.getBeginIndex();//第一个开牌的位置（庄家下一位）
             let headImg = this._game.sceneObjectMgr.getUnitByIdx(info.SeatIndex).GetHeadImg();
             let sex = parseInt(headImg) <= 10 ? 1 : 2;
-            this._allType[info.SeatIndex - 1] = cardType;
             for (let i: number = 0; i < unitNum; i++) {
                 let index = begin + i >= unitNum ? begin + i - unitNum : begin + i;
                 let curIndex = this._unitIndexOnTable[index]
@@ -1005,21 +1002,11 @@ module gameniuniu.page {
                 this._viewUI.box_matchPoint.visible = false;
             }
             this._isPlaying = this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE && this._curStatus < MAP_STATUS.PLAY_STATUS_SHOW_GAME;
-            //房卡按钮屏蔽
-            this._viewUI.view_card.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_CREATED || this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_WAIT;
-            this._viewUI.text_cardroomid.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_CREATED || this._curStatus == MAP_STATUS.PLAY_STATUS_CARDROOM_WAIT;
             switch (this._curStatus) {
                 case MAP_STATUS.PLAY_STATUS_GAME_NONE:// 准备阶段
                     this.initRoomConfig();
                     break;
                 case MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE:// 洗牌阶段
-                    if (this.isCardRoomType) {
-                        this._pageHandle.pushClose({ id: NiuniuPageDef.PAGE_NIUNIU_CARDROOM_SETTLE, parent: this._game.uiRoot.HUD });
-                        this.clearClips();
-                        this.resetUI();
-                        this.resetData();
-                        this._game.sceneObjectMgr.clearOfflineObject();
-                    }
                     this._viewUI.xipai.x = 640;
                     this._viewUI.xipai.y = 310;
                     this._viewUI.xipai.scaleX = 1;
@@ -1106,13 +1093,9 @@ module gameniuniu.page {
 
                     break;
                 case MAP_STATUS.PLAY_STATUS_SETTLE_INFO:// 显示结算信息
-                    this.openCardSettlePage();
                     this._niuStory.isReConnected = false;
                     break;
                 case MAP_STATUS.PLAY_STATUS_SHOW_GAME:// 本局展示阶段
-                    if (this.isCardRoomType && this._niuMapInfo.GetRound() == this._niuMapInfo.GetCardRoomGameNumber()) {
-                        this.openCardSettlePage();
-                    }
                     this._pageHandle.pushClose({ id: NiuniuPageDef.PAGE_NIUNIU_TONGSHA, parent: this._game.uiRoot.HUD });
                     if (this._game.sceneObjectMgr.mainPlayer.playerInfo.money < this._room_config[1]) {
                         TongyongPageDef.ins.alertRecharge(StringU.substitute("老板，您的金币少于{0}哦~\n补充点金币去大杀四方吧~", this._room_config[1]), () => {
@@ -1141,49 +1124,6 @@ module gameniuniu.page {
                 }
             }
             return false;
-        }
-
-        //打开房卡结算界面
-        private _betTemps: any = [0, 0, 0, 0, 0];    //各个精灵下注倍数
-        private _settleInfo: any = [0, 0, 0, 0, 0];  //各个精灵结算收益
-        private _allType: any = [-1, -1, -1, -1, -1];     //各个精灵牌型
-        private openCardSettlePage(): void {
-            if (!this.chargeArgs(this._betTemps, false)) return;
-            if (!this.chargeArgs(this._settleInfo, false)) return;
-            if (!this.chargeArgs(this._allType, true)) return;
-            if (!this._niuMapInfo) return;
-            let temps = [];
-            let infoTemps = [];
-            for (let i = 0; i < 5; i++) {
-                let unit = this._game.sceneObjectMgr.getUnitByIdx(i + 1)
-                if (unit) {
-                    let betNum: number = this._betTemps[i]; //下注倍数
-                    let jifen: number = this._settleInfo[i];  //结算金币
-                    let cardType: string = CARD_TYPE[this._allType[i]]; //牌型
-                    let identity: number = unit.GetIdentity(); //身份
-                    let name: string = unit.GetName(); //名字
-                    let totalJiFen: number = unit.GetMoney(); //积分
-                    if (unit) {
-                        let obj = {
-                            isMain: this._game.sceneObjectMgr.mainUnit.GetIndex() == i + 1,
-                            isbanker: identity == 1,
-                            name: name,
-                            difen: ROOM_CONFIG[this._niuStory.mapLv][0],
-                            betRate: betNum ? "" + betNum : "",
-                            bankerRate: identity == 1 ? this._bankerRate == 0 ? "1" : "" + this._bankerRate : "",
-                            jiFen: EnumToString.getPointBackNum(jifen, 2),
-                            totalJiFen: EnumToString.getPointBackNum(totalJiFen, 2),
-                            cardtype: cardType,
-                        }
-                        temps.push(obj);
-                    }
-                }
-            }
-            infoTemps.push(this._niuMapInfo.GetRound());
-            infoTemps.push(this._niuMapInfo.GetCardRoomGameNumber());
-            infoTemps.push(this._niuMapInfo.GetCountDown());
-            infoTemps.push(temps);
-            this._pageHandle.pushOpen({ id: NiuniuPageDef.PAGE_NIUNIU_CARDROOM_SETTLE, dataSource: infoTemps, parent: this._game.uiRoot.HUD });
         }
 
         //按钮缓动回调
@@ -1253,17 +1193,9 @@ module gameniuniu.page {
                     this._game.uiRoot.general.open(TongyongPageDef.PAGE_TONGYONG_QIFU);
                     break;
                 case this._viewUI.btn_back://返回
-                    if (this.isCardRoomType) {
-                        if (!this.canEndCardGame()) return;
-                        if (this._niuStory.isCardRoomMaster()) {
-                            this.masterDismissCardGame();
-                            return;
-                        }
-                    } else {
-                        if (this._niuMapInfo && this._niuMapInfo.GetPlayState() == 1) {
-                            this._game.showTips("游戏尚未结束，请先打完这局哦~");
-                            return;
-                        }
+                    if (this._niuMapInfo && this._niuMapInfo.GetPlayState() == 1) {
+                        this._game.showTips("游戏尚未结束，请先打完这局哦~");
+                        return;
                     }
                     this.clearClips();
                     this.resetData();
@@ -1341,19 +1273,6 @@ module gameniuniu.page {
                     this._viewUI.box_betRate.visible = false;
                     this._viewUI.box_tips.visible = true;
                     this._viewUI.txt_tips.text = "等待其他玩家下注";
-                    break;
-                case this._viewUI.view_card.btn_invite://房卡邀请
-                    // 微信邀请玩家参与房卡游戏
-                    logd("btn_invite:", this._niuMapInfo.GetCardRoomId());
-                    if (this.isCardRoomType && this._niuMapInfo.GetCardRoomId()) {
-                        this._game.network.call_get_roomcard_share(NiuniuPageDef.GAME_NAME);
-                    }
-                    break;
-                case this._viewUI.view_card.btn_dismiss://房卡解散
-                    this.masterDismissCardGame();
-                    break;
-                case this._viewUI.view_card.btn_start:////房卡开始
-                    this.setCardGameStart();
                     break;
                 default:
                     break;
@@ -1526,9 +1445,6 @@ module gameniuniu.page {
                 this._playerList[i].view_icon.clip_money.visible = false;
                 this._playerList[i].view_icon.img_banker.visible = false;
                 if (i > 0) {
-                    if (!this.isCardRoomType) {
-                        this._playerList[i].visible = false;
-                    }
                     this._playerList[i].box_cardType.visible = false;
                     this._playerList[i].img_yiwancheng.visible = false;
                 }
@@ -1553,16 +1469,9 @@ module gameniuniu.page {
             this._viewUI.box_xinshou.visible = false;
             this._viewUI.paixie.cards.visible = false;
             this._viewUI.paixie.ani_chupai.stop();
-            if (!this.isCardRoomType) {
-                this._viewUI.box_id.visible = false;
-            }
         }
 
         private resetData(): void {
-            //不是房卡模式，才会去设置
-            if (!this.isCardRoomType) {
-                this._battleIndex = -1;
-            }
             this._getBankerCount = 0;
             this._bankerRateInfo = [];
             this._bankerWinInfo = [];
@@ -1570,9 +1479,6 @@ module gameniuniu.page {
             this._betList = [];
             this._bankerList = [];
             this._room_config = [];
-            this._betTemps = [0, 0, 0, 0, 0];
-            this._settleInfo = [0, 0, 0, 0, 0];
-            this._allType = [0, 0, 0, 0, 0];
         }
 
         private clearMapInfoListen(): void {
@@ -1588,7 +1494,6 @@ module gameniuniu.page {
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
-            this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.updateCardRoomDisplayInfo);
             this._game.network.removeHanlder(Protocols.SMSG_OPERATION_FAILED, this, this.onOptHandler);
             Laya.Tween.clearAll(this);
             Laya.timer.clearAll(this);
@@ -1614,9 +1519,6 @@ module gameniuniu.page {
                 this._viewUI.btn_niu.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_notNiu.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_zhanji.off(LEvent.CLICK, this, this.onBtnClickWithTween);
-                this._viewUI.view_card.btn_start.off(LEvent.CLICK, this, this.onBtnClickWithTween);
-                this._viewUI.view_card.btn_invite.off(LEvent.CLICK, this, this.onBtnClickWithTween);
-                this._viewUI.view_card.btn_dismiss.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_qifu.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_OPRATE_SUCESS, this, this.onSucessHandler);
                 this._viewUI.xipai.ani_xipai.off(LEvent.COMPLETE, this, this.onWashCardOver);
@@ -1637,7 +1539,6 @@ module gameniuniu.page {
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_CHANGE, this, this.onUpdateUnit);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
-                this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.updateCardRoomDisplayInfo);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
 
                 this._game.network.removeHanlder(Protocols.SMSG_OPERATION_FAILED, this, this.onOptHandler);
