@@ -59,12 +59,6 @@ module gameniuniu.page {
 			}
 		}
 
-		/**数据*/
-		set dataSource(v: any) {
-			this._dataSource = v;
-			this._isRoomcardType = this._dataSource == PageDef.TYPE_CARD;
-		}
-
 		// 页面打开时执行函数
 		protected onOpen(): void {
 			super.onOpen();

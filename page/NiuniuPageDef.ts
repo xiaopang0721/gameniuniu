@@ -14,17 +14,13 @@ module gameniuniu.page {
 		static PAGE_NIUNIU_WIN: string = "4";
 		//牛牛失败动画界面
 		static PAGE_NIUNIU_LOSE: string = "5";
+		//牛牛游戏通杀界面
+		static PAGE_NIUNIU_TONGSHA: string = "6";
+		//牛牛游戏通赔界面
+		static PAGE_NIUNIU_TONGPEI: string = "7";
+
 		//牛牛游戏规则界面
 		static PAGE_NIUNIU_RULE: string = "101";
-		//牛牛游戏通杀界面
-		static PAGE_NIUNIU_TONGSHA: string = "8";
-		//牛牛游戏通赔界面
-		static PAGE_NIUNIU_TONGPEI: string = "9";
-
-		//房卡系列
-		static PAGE_NIUNIU_CREATE_CARDROOM: string = "14";	// 创建房间
-		static PAGE_NIUNIU_CARDROOM_SETTLE: string = "16";	// 房卡结算页
-		static PAGE_NIUNIU_JOIN_CARDROOM: string = "100";	// 加入房间
 
 		static myinit(str: string) {
 			super.myinit(str);
@@ -37,9 +33,6 @@ module gameniuniu.page {
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_RULE] = NiuNiuRulePage;
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_TONGSHA] = NiuNiuTongShaPage;
 			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_TONGPEI] = NiuNiuTongPeiPage;
-			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_CREATE_CARDROOM] = NiuNiuCreateCardRoom;
-			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_JOIN_CARDROOM] = NiuNiuJoinCardRoom;
-			PageDef._pageClassMap[NiuniuPageDef.PAGE_NIUNIU_CARDROOM_SETTLE] = NiuNiuSettlePage;
 
 
 			this["__needLoadAsset"] = [
@@ -62,7 +55,6 @@ module gameniuniu.page {
 				Path_game_niuniu.ui_niuniu + "sk/qznn_3.png",
 				Path_game_niuniu.ui_niuniu + "sk/qznn_3.sk",
 
-				PathGameTongyong.atlas_game_ui_tongyong + "jiaru.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "dating.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "logo.atlas",
 				Path.custom_atlas_scene + 'card.atlas',

@@ -120,9 +120,7 @@ module gameniuniu.page {
             super.onOpen();
             this.initBeiClip();
             //是否断线重连
-            if (this._niuStory instanceof gamecomponent.story.StoryRoomCardBase) {
-                this.onUpdateMapInfo();
-            } else if (!this._niuStory.isReConnected) {
+            if (!this._niuStory.isReConnected) {
                 this._game.uiRoot.general.open(TongyongPageDef.PAGE_TONGYONG_MATCH, null, (page) => {
                     this._viewUI.btn_continue.visible = page.dataSource;
                 });
@@ -151,9 +149,6 @@ module gameniuniu.page {
             this._viewUI.btn_niu.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_notNiu.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_zhanji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-            this._viewUI.view_card.btn_start.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-            this._viewUI.view_card.btn_invite.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-            this._viewUI.view_card.btn_dismiss.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_qifu.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_OPRATE_SUCESS, this, this.onSucessHandler);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_ADD_UNIT, this, this.onUnitAdd);
@@ -163,7 +158,6 @@ module gameniuniu.page {
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
-            this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.updateCardRoomDisplayInfo);
 
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
@@ -231,98 +225,6 @@ module gameniuniu.page {
             }
         }
 
-        /******************************房卡专用****************************** */
-        get isCardRoomType() {
-            return this._niuStory instanceof gamecomponent.story.StoryRoomCardBase;
-        }
-
-        private updateCardRoomDisplayInfo() {
-            if (!this._niuMapInfo) return;
-            if (!this._game.sceneObjectMgr.mainUnit) return;
-            this.onUpdateUnit();
-            if (this._niuMapInfo.GetCardRoomId() && !this._isPlaying && !this._isGameEnd) {
-                this.setCardRoomBtnVisible();
-            }
-        }
-
-        // 房卡按纽及状态
-        private setCardRoomBtnVisible() {
-            if (this._isPlaying) return;
-            this._viewUI.view_card.visible = this.isCardRoomType;
-            this._viewUI.text_cardroomid.visible = this.isCardRoomType;
-            if (this.isCardRoomType) {
-                this._viewUI.text_cardroomid.text = "房间号：" + this._niuMapInfo.GetCardRoomId();
-                this._viewUI.view_card.btn_invite.visible = true;
-                this._viewUI.view_card.btn_invite.x = this._niuStory.isCardRoomMaster() ? 420 : this._viewUI.view_card.btn_start.x;
-                this._viewUI.view_card.btn_dismiss.visible = this._niuStory.isCardRoomMaster();
-                this._viewUI.view_card.btn_start.visible = this._niuStory.isCardRoomMaster();
-            }
-        }
-
-        // 是否可以提前终止游戏
-        private canEndCardGame() {
-            if (this._isPlaying) {
-                TongyongPageDef.ins.alertRecharge(StringU.substitute("游戏中禁止退出，请先完成本轮" + this._niuMapInfo.GetCardRoomGameNumber() + "局游戏哦~~"), () => {
-                }, () => {
-                }, true);
-                return false;
-            }
-            return !this._isPlaying;
-        }
-
-        // 房卡模式解散游戏,是否需要房主限制
-        private masterDismissCardGame() {
-            let mainUnit: Unit = this._game.sceneObjectMgr.mainUnit;
-            if (!mainUnit) return;
-            if (mainUnit.GetRoomMaster() != 1) {
-                TongyongPageDef.ins.alertRecharge(StringU.substitute("只有房主才可以解散房间哦"), () => {
-                }, () => {
-                }, true);
-            } else {
-                if (!this._isGameEnd) {
-                    TongyongPageDef.ins.alertRecharge("游戏未开始，解散房间不会扣除金币！\n是否解散房间？", () => {
-                        this._niuStory.endRoomCardGame(mainUnit.GetIndex(), this._niuMapInfo.GetCardRoomId());
-                        this._game.sceneObjectMgr.leaveStory(true);
-                    }, null, false, PathGameTongyong.ui_tongyong_general + "btn_tx.png");
-                }
-            }
-        }
-
-        private getUnitCount() {
-            let count: number = 0;
-            let unitDic = this._game.sceneObjectMgr.unitDic;
-            if (unitDic) {
-                for (let key in unitDic) {
-                    count++;
-                }
-            }
-            return count;
-        }
-
-        private setCardGameStart() {
-            let mainUnit: Unit = this._game.sceneObjectMgr.mainUnit;
-            if (!mainUnit) return;
-            let mapinfo: NiuniuMapInfo = this._game.sceneObjectMgr.mapInfo as NiuniuMapInfo;
-            if (!mapinfo) return;
-            if (mapinfo.GetPlayState()) return;
-            if (mainUnit.GetRoomMaster() != 1) {
-                TongyongPageDef.ins.alertRecharge(StringU.substitute("只有房主才可以选择开始游戏哦"), () => {
-                }, () => {
-                }, true);
-                return;
-            }
-            this._niuMgr.totalUnitCount = this.getUnitCount();
-            if (this._niuMgr.totalUnitCount < NiuMgr.MIN_CARD_SEATS_COUNT) {
-                TongyongPageDef.ins.alertRecharge(StringU.substitute("老板，再等等嘛，需要两个人才可以开始"), () => {
-                }, () => {
-                }, true);
-                return;
-            }
-            this._niuStory.startRoomCardGame(mainUnit.guid, this._niuMapInfo.GetCardRoomId());
-        }
-        /******************************************************************** */
-
-
         //玩家进来了
         private onUnitAdd(u: Unit) {
             this.onUpdateUnit();
@@ -369,10 +271,6 @@ module gameniuniu.page {
                     this.initRoomConfig();
                     this.onUpdateGameNo();
                     this.onUpdateGameRound();
-                }
-                if (this.isCardRoomType) {
-                    this.initRoomConfig();
-                    this.updateCardRoomDisplayInfo();
                 }
             } else {
                 this.onUpdateUnitOffline();
@@ -635,7 +533,6 @@ module gameniuniu.page {
             let base = c;
             let maxBetRate = Math.round(Math.min(bankerMoney / (9 * bankerRate * base), playerMoney / (bankerRate * base)));
             maxBetRate = maxBetRate > 15 ? 15 : maxBetRate == 0 ? 1 : maxBetRate;
-            if (this.isCardRoomType) maxBetRate = 15;
             this._betList = RATE_LIST[maxBetRate.toString()]
             // this._viewUI.btn_betRate1.label = this._betList[0] + "倍";
             this._beiClip1.setText(this._betList[0], true);
@@ -703,8 +600,6 @@ module gameniuniu.page {
         //重连之后，战斗日志从哪开始刷
         private resetBattleIdx(): void {
             if (!this._niuMapInfo) return;
-            //不是房卡模式，就不用算
-            if (!this.isCardRoomType) return;
             if (!this._niuStory.isReConnected) return;
             let battleInfoMgr = this._niuMapInfo.battleInfoMgr;
             for (let i = 0; i < battleInfoMgr.info.length; i++) {
@@ -876,6 +771,17 @@ module gameniuniu.page {
                     this._bankerLoseInfo.push(parseFloat(info.SettleVal));
                 }
             }
+        }
+        
+        private getUnitCount() {
+            let count: number = 0;
+            let unitDic = this._game.sceneObjectMgr.unitDic;
+            if (unitDic) {
+                for (let key in unitDic) {
+                    count++;
+                }
+            }
+            return count;
         }
 
         private onBattlePlayCard(info: any): void {
@@ -1086,7 +992,7 @@ module gameniuniu.page {
             if (!this._niuMapInfo) return;
             if (this._curStatus == this._niuMapInfo.GetMapState()) return;
             this._curStatus = this._niuMapInfo.GetMapState();
-            this._viewUI.btn_continue.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_SHOW_GAME && !this.isCardRoomType;
+            this._viewUI.btn_continue.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_SHOW_GAME;
             this._viewUI.box_bankerRate.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_GET_BANKER;
             if (this._curStatus == MAP_STATUS.PLAY_STATUS_SET_BANKER || this._curStatus == MAP_STATUS.PLAY_STATUS_GAME_START || this._curStatus == MAP_STATUS.PLAY_STATUS_PUSH_CARD
                 || this._curStatus == MAP_STATUS.PLAY_STATUS_COMPARE || this._curStatus == MAP_STATUS.PLAY_STATUS_SETTLE || this._curStatus == MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE) {
