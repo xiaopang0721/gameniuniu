@@ -257,7 +257,6 @@ module gameniuniu.page {
             this._niuMapInfo = mapinfo as NiuniuMapInfo;
             if (mapinfo) {
                 this.onUpdateStatus();
-                this.resetBattleIdx();
                 this.onUpdateUnit();
                 this.onUpdateBattle();
                 this.onUpdateCountDown();
@@ -352,7 +351,7 @@ module gameniuniu.page {
                             this._playerList[index].box_notBet.visible = false;
                             this._playerList[index].img_bankerRate.skin = StringU.substitute(Path_game_niuniu.ui_niuniu + "bei_{0}.png", this._bankerRateList[index]);
                             this._playerList[index].view_icon.img_banker.visible = true;
-                            this._playerList[index].view_icon.img_banker.ani1.play(0, false);
+                            this._playerList[index].view_icon.img_banker.ani1.gotoAndStop(28);
                         }
                         if (unit.GetIndex() == idx)
                             this._viewUI.box_betRate.visible = false;
@@ -534,24 +533,20 @@ module gameniuniu.page {
             let maxBetRate = Math.round(Math.min(bankerMoney / (9 * bankerRate * base), playerMoney / (bankerRate * base)));
             maxBetRate = maxBetRate > 15 ? 15 : maxBetRate == 0 ? 1 : maxBetRate;
             this._betList = RATE_LIST[maxBetRate.toString()]
-            // this._viewUI.btn_betRate1.label = this._betList[0] + "倍";
             this._beiClip1.setText(this._betList[0], true);
             if (this._betList[1]) {
-                // this._viewUI.btn_betRate2.label = this._betList[1] + "倍";
                 this._beiClip2.setText(this._betList[1], true);
                 this._viewUI.btn_betRate2.visible = true;
             } else {
                 this._viewUI.btn_betRate2.visible = false;
             }
             if (this._betList[2]) {
-                // this._viewUI.btn_betRate3.label = this._betList[2] + "倍";
                 this._beiClip3.setText(this._betList[2], true);
                 this._viewUI.btn_betRate3.visible = true;
             } else {
                 this._viewUI.btn_betRate3.visible = false;
             }
             if (this._betList[3]) {
-                // this._viewUI.btn_betRate4.label = this._betList[3] + "倍";
                 this._beiClip4.setText(this._betList[3], true);
                 this._viewUI.btn_betRate4.visible = true;
             } else {
@@ -593,29 +588,6 @@ module gameniuniu.page {
                         this._viewUI["txt_point" + i].text = "";
                         break;
                     }
-                }
-            }
-        }
-
-        //重连之后，战斗日志从哪开始刷
-        private resetBattleIdx(): void {
-            if (!this._niuMapInfo) return;
-            if (!this._niuStory.isReConnected) return;
-            let battleInfoMgr = this._niuMapInfo.battleInfoMgr;
-            for (let i = 0; i < battleInfoMgr.info.length; i++) {
-                let battleInfo = battleInfoMgr.info[i] as gamecomponent.object.BattleInfoBase;
-                let index: number = 0;
-                if (battleInfo instanceof gamecomponent.object.BattleInfoBanker) {
-                    index = i;
-                }
-                let index1: number = 0;
-                if (battleInfo instanceof gamecomponent.object.BattleInfoSettle) {
-                    index1 = i;
-                }
-                if (index < index1) {
-                    this._battleIndex = index - 1;
-                } else {
-                    this._battleIndex = index1;
                 }
             }
         }
@@ -1002,6 +974,9 @@ module gameniuniu.page {
                 this._viewUI.box_matchPoint.visible = false;
             }
             this._isPlaying = this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE && this._curStatus < MAP_STATUS.PLAY_STATUS_SHOW_GAME;
+            if(this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE){
+                this._viewUI.paixie.ani_chupai.gotoAndStop(12);
+            }
             switch (this._curStatus) {
                 case MAP_STATUS.PLAY_STATUS_GAME_NONE:// 准备阶段
                     this.initRoomConfig();
@@ -1338,17 +1313,6 @@ module gameniuniu.page {
                         break;
                 }
             }
-            else if (msg.type == Operation_Fields.OPRATE_TELEPORT) {
-                switch (msg.reason) {
-                    case Operation_Fields.OPRATE_TELEPORT_MAP_CREATE_ROOM_SUCCESS://在地图中重新创建房间成功
-                        this.clearClips();
-                        this.resetUI();
-                        this.resetData();
-                        this._battleIndex = -1;
-                        this._game.sceneObjectMgr.clearOfflineObject();
-                        break;
-                }
-            }
         }
 
         protected onSucessHandler(data: any) {
@@ -1472,6 +1436,7 @@ module gameniuniu.page {
         }
 
         private resetData(): void {
+            this._battleIndex = -1;
             this._getBankerCount = 0;
             this._bankerRateInfo = [];
             this._bankerWinInfo = [];
