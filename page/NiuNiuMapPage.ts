@@ -1452,7 +1452,6 @@ module gameniuniu.page {
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
-            this._game.qifuMgr.off(QiFuMgr.QIFU_FLY, this, this.qifuFly);
             Laya.Tween.clearAll(this);
             Laya.timer.clearAll(this);
         }
