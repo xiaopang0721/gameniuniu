@@ -492,7 +492,7 @@ module gameniuniu.page {
             this._viewUI.addChild(this._kuangView);
             this._kuangView.ani1.gotoAndStop(0)
             this.count = 0;
-            Laya.timer.loop(150, this, this.ranEffPos);
+            Laya.timer.loop(100, this, this.ranEffPos);
             this.ranEffPos();
         }
 
@@ -509,7 +509,7 @@ module gameniuniu.page {
             this._kuangView.pos(posX, posY);
             this._game.playSound(Path_game_niuniu.music_niuniu + "suiji.mp3", false);
             if (randIndex == this._bankerIndex) {
-                if (this.count >= 25) {
+                if (this.count >= 20) {
                     this._kuangView.ani1.play(0, false)
                     Laya.timer.once(1000, this, () => {
                         this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
