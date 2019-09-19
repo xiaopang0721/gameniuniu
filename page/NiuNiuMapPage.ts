@@ -491,25 +491,26 @@ module gameniuniu.page {
             this._bankerList = _info;
             this._viewUI.addChild(this._kuangView);
             this._kuangView.ani1.gotoAndStop(0)
-            this.count = 0;
-            Laya.timer.loop(100, this, this.ranEffPos);
+            this._count = 0;
+            Laya.timer.loop(this._diff_ran, this, this.ranEffPos);
             this.ranEffPos();
         }
 
-        private count: number = 0;
-        private curIndex: number = 0;
+        private _diff_ran: number = 200;
+        private _count: number = 0;
+        private _curIndex: number = 0;
         private ranEffPos(): void {
             if (!this._game.mainScene || !this._game.mainScene.camera) return;
-            if (this.curIndex >= this._bankerList.length) {
-                this.curIndex = 0;
+            if (this._curIndex >= this._bankerList.length) {
+                this._curIndex = 0;
             }
-            let randIndex = this.getUnitUIPos(this._bankerList[this.curIndex]);
+            let randIndex = this.getUnitUIPos(this._bankerList[this._curIndex]);
             let posX = this._game.mainScene.camera.getScenePxByCellX(this._playerList[randIndex].x + this._playerList[randIndex].view_icon.x - 26);
             let posY = this._game.mainScene.camera.getScenePxByCellY(this._playerList[randIndex].y + this._playerList[randIndex].view_icon.y - 23);
             this._kuangView.pos(posX, posY);
             this._game.playSound(Path_game_niuniu.music_niuniu + "suiji.mp3", false);
             if (randIndex == this._bankerIndex) {
-                if (this.count >= 20) {
+                if (this._count >= 2000) {
                     this._kuangView.ani1.play(0, false)
                     Laya.timer.once(1000, this, () => {
                         this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
@@ -520,8 +521,8 @@ module gameniuniu.page {
                     return;
                 }
             }
-            this.curIndex++;
-            this.count++;
+            this._curIndex++;
+            this._count += this._diff_ran;
         }
 
         //下注倍数按钮更新
@@ -974,7 +975,7 @@ module gameniuniu.page {
                 this._viewUI.box_matchPoint.visible = false;
             }
             this._isPlaying = this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE && this._curStatus < MAP_STATUS.PLAY_STATUS_SHOW_GAME;
-            if(this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE){
+            if (this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE) {
                 this._viewUI.paixie.ani_chupai.gotoAndStop(12);
             }
             switch (this._curStatus) {
