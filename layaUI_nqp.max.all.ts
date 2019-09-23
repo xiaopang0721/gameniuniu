@@ -110,31 +110,8 @@ module ui.nqp.game_ui.niuniu.component {
 }
 
 module ui.nqp.game_ui.niuniu.component {
-    export class TouXiangUI extends View {
-		public img_icon:Laya.Image;
-		public img_txk:Laya.Image;
-		public txt_name:laya.display.Text;
-		public txt_money:laya.display.Text;
-		public clip_money:Laya.Clip;
-		public qifu_type:Laya.Image;
-		public img_banker:ui.nqp.game_ui.niuniu.component.Effect_qzcgUI;
-		public img_qifu:Laya.Image;
-
-        public static  uiView:any ={"type":"View","props":{"width":100,"height":140},"child":[{"type":"Box","props":{"y":0,"x":0,"width":100,"height":140},"child":[{"type":"Image","props":{"skin":"tongyong_ui/game_ui/tongyong/general/tu_txk1.png","centerY":0,"centerX":0}},{"type":"Image","props":{"var":"img_icon","skin":"tongyong_ui/game_ui/tongyong/touxiang/head_0.png","centerY":0,"centerX":0,"anchorY":0.5,"anchorX":0.5}},{"type":"Image","props":{"var":"img_txk","skin":"tongyong_ui/game_ui/tongyong/touxiang/tu_v1.png","scaleY":0.95,"scaleX":0.95,"centerY":0,"centerX":0}},{"type":"Text","props":{"y":8,"x":0,"width":100,"var":"txt_name","text":"玩家名字六字","leading":6,"height":23,"fontSize":16,"color":"#ffffff","align":"center"}},{"type":"Text","props":{"y":113,"x":0,"wordWrap":true,"width":101,"var":"txt_money","text":"0","leading":6,"height":24,"fontSize":18,"color":"#f8ea5e","align":"center"}},{"type":"Clip","props":{"y":1,"var":"clip_money","skin":"tongyong_ui/game_ui/tongyong/general/clip_num1.png","clipX":11,"centerX":0}},{"type":"Image","props":{"visible":false,"var":"qifu_type","skin":"tongyong_ui/game_ui/tongyong/qifu/f_cs2.png","scaleY":0.5,"scaleX":0.5,"centerY":0,"centerX":0,"anchorY":1,"anchorX":0.5}},{"type":"Effect_qzcg","props":{"y":0,"x":-3,"var":"img_banker","runtime":"ui.nqp.game_ui.niuniu.component.Effect_qzcgUI"}},{"type":"Image","props":{"y":21,"x":69,"visible":false,"var":"img_qifu","skin":"tongyong_ui/game_ui/tongyong/touxiang/tu_qf.png"}}]}]};
-        constructor(){ super()}
-        createChildren():void {
-        			View.regComponent("Text",laya.display.Text);
-			View.regComponent("ui.nqp.game_ui.niuniu.component.Effect_qzcgUI",ui.nqp.game_ui.niuniu.component.Effect_qzcgUI);
-
-            super.createChildren();
-            this.createView(ui.nqp.game_ui.niuniu.component.TouXiangUI.uiView);
-        }
-    }
-}
-
-module ui.nqp.game_ui.niuniu.component {
     export class WanJia_LUI extends View {
-		public view_icon:ui.nqp.game_ui.niuniu.component.TouXiangUI;
+		public view_icon:ui.nqp.game_ui.tongyong.TouXiangqzUI;
 		public box_bankerRate:Laya.Box;
 		public img_bankerRate:Laya.Image;
 		public box_cardType:Laya.Box;
@@ -147,10 +124,10 @@ module ui.nqp.game_ui.niuniu.component {
 		public img_betRate2:Laya.Image;
 		public img_yiwancheng:Laya.Box;
 
-        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiang","props":{"y":29,"x":4,"var":"view_icon","runtime":"ui.nqp.game_ui.niuniu.component.TouXiangUI"}},{"type":"Box","props":{"y":16,"x":118,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":0,"x":112,"visible":false,"var":"box_cardType"},"child":[{"type":"NiuPai","props":{"y":132,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}},{"type":"NiuNiu","props":{"x":3,"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}}]},{"type":"Button","props":{"y":21,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-13}},{"type":"Box","props":{"y":20,"x":128,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":16,"x":121,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":126,"x":217,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
+        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiangqz","props":{"y":29,"x":4,"var":"view_icon","runtime":"ui.nqp.game_ui.tongyong.TouXiangqzUI"}},{"type":"Box","props":{"y":16,"x":118,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":0,"x":112,"visible":false,"var":"box_cardType"},"child":[{"type":"NiuPai","props":{"y":132,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}},{"type":"NiuNiu","props":{"x":3,"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}}]},{"type":"Button","props":{"y":21,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-13}},{"type":"Box","props":{"y":20,"x":128,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":16,"x":121,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":126,"x":217,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
         constructor(){ super()}
         createChildren():void {
-        			View.regComponent("ui.nqp.game_ui.niuniu.component.TouXiangUI",ui.nqp.game_ui.niuniu.component.TouXiangUI);
+        			View.regComponent("ui.nqp.game_ui.tongyong.TouXiangqzUI",ui.nqp.game_ui.tongyong.TouXiangqzUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuPaiUI",ui.nqp.game_ui.niuniu.component.NiuPaiUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuNiuUI",ui.nqp.game_ui.niuniu.component.NiuNiuUI);
 			View.regComponent("Text",laya.display.Text);
@@ -163,7 +140,7 @@ module ui.nqp.game_ui.niuniu.component {
 
 module ui.nqp.game_ui.niuniu.component {
     export class WanJia_L1UI extends View {
-		public view_icon:ui.nqp.game_ui.niuniu.component.TouXiangUI;
+		public view_icon:ui.nqp.game_ui.tongyong.TouXiangqzUI;
 		public box_bankerRate:Laya.Box;
 		public img_bankerRate:Laya.Image;
 		public box_cardType:Laya.Box;
@@ -176,10 +153,10 @@ module ui.nqp.game_ui.niuniu.component {
 		public img_betRate2:Laya.Image;
 		public img_yiwancheng:Laya.Box;
 
-        public static  uiView:any ={"type":"View","props":{"width":250,"height":300},"child":[{"type":"TouXiang","props":{"y":28,"x":46,"var":"view_icon","runtime":"ui.nqp.game_ui.niuniu.component.TouXiangUI"}},{"type":"Box","props":{"y":48,"x":152,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":115,"x":-4,"var":"box_cardType"},"child":[{"type":"NiuPai","props":{"y":134,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}},{"type":"NiuNiu","props":{"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}}]},{"type":"Button","props":{"y":52,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":73}},{"type":"Box","props":{"y":51,"x":160,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":47,"x":151,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":245,"x":94,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
+        public static  uiView:any ={"type":"View","props":{"width":250,"height":300},"child":[{"type":"TouXiangqz","props":{"y":28,"x":46,"var":"view_icon","runtime":"ui.nqp.game_ui.tongyong.TouXiangqzUI"}},{"type":"Box","props":{"y":48,"x":152,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":115,"x":-4,"var":"box_cardType"},"child":[{"type":"NiuPai","props":{"y":134,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}},{"type":"NiuNiu","props":{"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}}]},{"type":"Button","props":{"y":52,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":73}},{"type":"Box","props":{"y":51,"x":160,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":47,"x":151,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":245,"x":94,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
         constructor(){ super()}
         createChildren():void {
-        			View.regComponent("ui.nqp.game_ui.niuniu.component.TouXiangUI",ui.nqp.game_ui.niuniu.component.TouXiangUI);
+        			View.regComponent("ui.nqp.game_ui.tongyong.TouXiangqzUI",ui.nqp.game_ui.tongyong.TouXiangqzUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuPaiUI",ui.nqp.game_ui.niuniu.component.NiuPaiUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuNiuUI",ui.nqp.game_ui.niuniu.component.NiuNiuUI);
 			View.regComponent("Text",laya.display.Text);
@@ -192,7 +169,7 @@ module ui.nqp.game_ui.niuniu.component {
 
 module ui.nqp.game_ui.niuniu.component {
     export class Wanjia_MainUI extends View {
-		public view_icon:ui.nqp.game_ui.niuniu.component.TouXiangUI;
+		public view_icon:ui.nqp.game_ui.tongyong.TouXiangqzUI;
 		public box_bankerRate:Laya.Box;
 		public img_bankerRate:Laya.Image;
 		public img_isReady:Laya.Button;
@@ -201,10 +178,10 @@ module ui.nqp.game_ui.niuniu.component {
 		public img_betRate1:Laya.Image;
 		public img_betRate2:Laya.Image;
 
-        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiang","props":{"y":29,"x":14,"var":"view_icon","runtime":"ui.nqp.game_ui.niuniu.component.TouXiangUI"}},{"type":"Box","props":{"y":26,"x":128,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Button","props":{"y":31,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-5}},{"type":"Box","props":{"y":30,"x":138,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":26,"x":128,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]}]};
+        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiangqz","props":{"y":29,"x":14,"var":"view_icon","runtime":"ui.nqp.game_ui.tongyong.TouXiangqzUI"}},{"type":"Box","props":{"y":26,"x":128,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Button","props":{"y":31,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-5}},{"type":"Box","props":{"y":30,"x":138,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":26,"x":128,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]}]};
         constructor(){ super()}
         createChildren():void {
-        			View.regComponent("ui.nqp.game_ui.niuniu.component.TouXiangUI",ui.nqp.game_ui.niuniu.component.TouXiangUI);
+        			View.regComponent("ui.nqp.game_ui.tongyong.TouXiangqzUI",ui.nqp.game_ui.tongyong.TouXiangqzUI);
 
             super.createChildren();
             this.createView(ui.nqp.game_ui.niuniu.component.Wanjia_MainUI.uiView);
@@ -214,7 +191,7 @@ module ui.nqp.game_ui.niuniu.component {
 
 module ui.nqp.game_ui.niuniu.component {
     export class WanJia_RUI extends View {
-		public view_icon:ui.nqp.game_ui.niuniu.component.TouXiangUI;
+		public view_icon:ui.nqp.game_ui.tongyong.TouXiangqzUI;
 		public box_cardType:Laya.Box;
 		public box_bigNiu:ui.nqp.game_ui.niuniu.component.NiuNiuUI;
 		public box_typeNiu:ui.nqp.game_ui.niuniu.component.NiuPaiUI;
@@ -227,10 +204,10 @@ module ui.nqp.game_ui.niuniu.component {
 		public img_betRate2:Laya.Image;
 		public img_yiwancheng:Laya.Box;
 
-        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiang","props":{"y":29,"x":252,"var":"view_icon","runtime":"ui.nqp.game_ui.niuniu.component.TouXiangUI"}},{"type":"Box","props":{"y":1,"x":63,"var":"box_cardType"},"child":[{"type":"NiuNiu","props":{"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}},{"type":"NiuPai","props":{"y":132,"x":-7,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}}]},{"type":"Button","props":{"y":16,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-8}},{"type":"Box","props":{"y":11,"x":140,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":15,"x":148,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":11,"x":130,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":124,"x":153,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
+        public static  uiView:any ={"type":"View","props":{"width":370,"height":180},"child":[{"type":"TouXiangqz","props":{"y":29,"x":252,"var":"view_icon","runtime":"ui.nqp.game_ui.tongyong.TouXiangqzUI"}},{"type":"Box","props":{"y":1,"x":63,"var":"box_cardType"},"child":[{"type":"NiuNiu","props":{"var":"box_bigNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuNiuUI"}},{"type":"NiuPai","props":{"y":132,"x":-7,"var":"box_typeNiu","runtime":"ui.nqp.game_ui.niuniu.component.NiuPaiUI"}}]},{"type":"Button","props":{"y":16,"var":"img_isReady","stateNum":1,"skin":"niuniu_ui/game_ui/niuniu/tu_zb.png","labelStrokeColor":"#7e2314","labelStroke":2,"labelSize":26,"labelPadding":"-6","labelFont":"Microsoft YaHei","labelColors":"#ffffff","labelBold":true,"centerX":-8}},{"type":"Box","props":{"y":11,"x":140,"var":"box_bankerRate"},"child":[{"type":"Image","props":{"y":3,"skin":"niuniu_ui/game_ui/niuniu/qiang_1.png"}},{"type":"Image","props":{"x":32,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":58,"var":"img_bankerRate","skin":"niuniu_ui/game_ui/niuniu/bei_0.png"}}]},{"type":"Box","props":{"y":15,"x":148,"var":"box_notBet"},"child":[{"type":"Image","props":{"skin":"niuniu_ui/game_ui/niuniu/qiang_0.png"}}]},{"type":"Box","props":{"y":11,"x":130,"var":"box_betRate"},"child":[{"type":"Image","props":{"y":0,"x":4,"skin":"niuniu_ui/game_ui/niuniu/tu_x.png"}},{"type":"Image","props":{"x":32,"var":"img_betRate1","skin":"niuniu_ui/game_ui/niuniu/bei_1.png"}},{"type":"Image","props":{"y":0,"x":55,"var":"img_betRate2","skin":"niuniu_ui/game_ui/niuniu/bei_5.png"}}]},{"type":"Box","props":{"y":124,"x":153,"width":252,"var":"img_yiwancheng","height":43,"anchorY":0.5,"anchorX":0.5},"child":[{"type":"Image","props":{"y":22,"width":194,"skin":"niuniu_ui/game_ui/niuniu/tu_h.png","height":41,"centerX":3,"anchorY":0.5,"anchorX":0.5,"alpha":1}},{"type":"Text","props":{"y":7,"x":76,"wordWrap":true,"width":106,"text":"已完成","strokeColor":"#00ffc1","leading":6,"height":26,"fontSize":26,"color":"#dadada","align":"center"}}]}]};
         constructor(){ super()}
         createChildren():void {
-        			View.regComponent("ui.nqp.game_ui.niuniu.component.TouXiangUI",ui.nqp.game_ui.niuniu.component.TouXiangUI);
+        			View.regComponent("ui.nqp.game_ui.tongyong.TouXiangqzUI",ui.nqp.game_ui.tongyong.TouXiangqzUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuNiuUI",ui.nqp.game_ui.niuniu.component.NiuNiuUI);
 			View.regComponent("ui.nqp.game_ui.niuniu.component.NiuPaiUI",ui.nqp.game_ui.niuniu.component.NiuPaiUI);
 			View.regComponent("Text",laya.display.Text);
