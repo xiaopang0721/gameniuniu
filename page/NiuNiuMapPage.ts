@@ -511,12 +511,9 @@ module gameniuniu.page {
             this._game.playSound(Path_game_niuniu.music_niuniu + "suiji.mp3", false);
             if (randIndex == this._bankerIndex) {
                 if (this._count >= 2000) {
-                    this._kuangView.ani1.play(0, false)
-                    Laya.timer.once(1000, this, () => {
-                        this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
-                        this._playerList[this._bankerIndex].view_icon.img_banker.visible = true;
-                        this._playerList[this._bankerIndex].view_icon.img_banker.ani1.play(0, false);
-                    })
+                    this._game.playSound(Path_game_niuniu.music_niuniu + "suidao.mp3", false);
+                    this._playerList[this._bankerIndex].view_icon.img_banker.visible = true;
+                    this._playerList[this._bankerIndex].view_icon.img_banker.ani1.play(0, false);
                     Laya.timer.clear(this, this.ranEffPos);
                     return;
                 }
