@@ -339,7 +339,6 @@ module gameniuniu.page {
                         }
                     }
                     this._playerList[index].view_icon.txt_name.text = getMainPlayerName(unit.GetName());
-                    this._playerList[index].view_icon.img_icon.skin = iconUrl;
                     if ((this._curStatus != MAP_STATUS.PLAY_STATUS_COMPARE && this._curStatus != MAP_STATUS.PLAY_STATUS_SETTLE) || this._niuStory.isReConnected) {
                         this.updateMoney();
                     }
@@ -389,6 +388,7 @@ module gameniuniu.page {
                         }
                     } else {
                         this._playerList[index].view_icon.img_qifu.visible = false;
+                        this._playerList[index].view_icon.img_icon.skin = iconUrl;
                     }
                 }
             }
