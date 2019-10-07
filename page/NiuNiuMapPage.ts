@@ -79,17 +79,17 @@ module gameniuniu.page {
             this._isNeedDuang = false;
             this._delta = 1000;
             this._asset = [
+                DatingPath.atlas_dating_ui + "qifu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "hud.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "pai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "touxiang.atlas",
-                PathGameTongyong.atlas_game_ui_tongyong + "qifu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "dating.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "qz.atlas",
-                Path_game_niuniu.atlas_game_ui + "niuniu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/suiji.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
+                Path_game_niuniu.atlas_game_ui + "niuniu.atlas",
                 Path_game_niuniu.ui_niuniu + "sk/qznn_0.png",
                 Path_game_niuniu.ui_niuniu + "sk/qznn_1.png",
                 Path_game_niuniu.ui_niuniu + "sk/qznn_2.png",
