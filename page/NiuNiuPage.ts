@@ -64,10 +64,6 @@ module gameniuniu.page {
 			super.onOpen();
 			this.initRoomInfo();
 			this.initRoomcardMode();
-			this._viewUI.btn_xinshou.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-			this._viewUI.btn_chuji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-			this._viewUI.btn_zhongji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-			this._viewUI.btn_gaoji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
 			this._viewUI.btn_join.on(LEvent.CLICK, this, this.onBtnClickWithTween);
 
 			(this._viewUI.view as TongyongHudNqpPage).onOpen(this._game, NiuniuPageDef.GAME_NAME, this._isRoomcardType);
@@ -77,8 +73,18 @@ module gameniuniu.page {
 				this._viewUI.box_right._childs[index].visible = true;
 				Laya.Tween.from(this._viewUI.box_right._childs[index], {
 					right: -300
-				}, 200 + index * 100, Laya.Ease.linearNone);
+				}, this._initialtime + index * this._time, Laya.Ease.linearNone);
 			}
+			Laya.timer.once(this._initialtime + 4 * this._time, this, this.onComplete)
+		}
+
+		private _initialtime: number = 200;
+		private _time: number = 100;
+		private onComplete(){
+			this._viewUI.btn_xinshou.on(LEvent.CLICK, this, this.onBtnClickWithTween);
+			this._viewUI.btn_chuji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
+			this._viewUI.btn_zhongji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
+			this._viewUI.btn_gaoji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
 		}
 
 		private initRoomInfo(): void {
