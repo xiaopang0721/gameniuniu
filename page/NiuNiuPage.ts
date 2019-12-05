@@ -12,7 +12,6 @@ module gameniuniu.page {
 		private _player: any;
 		private _playerInfo: any;
 		private _niuMgr: NiuMgr;
-		private _isRoomcardType: boolean;
 
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
 			super(v, onOpenFunc, onCloseFunc);
@@ -63,10 +62,9 @@ module gameniuniu.page {
 		protected onOpen(): void {
 			super.onOpen();
 			this.initRoomInfo();
-			this.initRoomcardMode();
 			this._viewUI.btn_join.on(LEvent.CLICK, this, this.onBtnClickWithTween);
 
-			(this._viewUI.view as TongyongHudNqpPage).onOpen(this._game, NiuniuPageDef.GAME_NAME, this._isRoomcardType);
+			(this._viewUI.view as TongyongHudNqpPage).onOpen(this._game, NiuniuPageDef.GAME_NAME, false);
 			this._game.playMusic(Path_game_niuniu.music_niuniu + "nn_bgm.mp3");
 
 			for (let index = 0; index < this._viewUI.box_right.numChildren; index++) {
@@ -94,11 +92,6 @@ module gameniuniu.page {
 			for (let index = 0; index < this._leastClipList.length; index++) {
 				this._leastClipList[index] && this._leastClipList[index].setText(this._leastTmep[index], true);
 			}
-		}
-
-		/** 房卡模式下的布局 */
-		private initRoomcardMode() {
-			this._viewUI.box_normal.visible = !this._isRoomcardType;
 		}
 
 		protected onBtnTweenEnd(e: any, target: any): void {
@@ -134,14 +127,14 @@ module gameniuniu.page {
 					}
 					this._game.sceneObjectMgr.intoStory(NiuniuPageDef.GAME_NAME, Web_operation_fields.GAME_ROOM_CONFIG_QIANGZHUANG_NIUNIU_4.toString());
 					break;
-				case this._viewUI.btn_join:
-					let maplv = TongyongUtil.getJoinMapLv(NiuniuPageDef.GAME_NAME, this._player.playerInfo.money);
-					if (!maplv) {
-						this.showTipsBox(this._leastTmep[0]);
-						return;
-					}
-					this._game.sceneObjectMgr.intoStory(NiuniuPageDef.GAME_NAME, maplv.toString());
-					break;
+				// case this._viewUI.btn_join:
+				// 	let maplv = TongyongUtil.getJoinMapLv(NiuniuPageDef.GAME_NAME, this._player.playerInfo.money);
+				// 	if (!maplv) {
+				// 		this.showTipsBox(this._leastTmep[0]);
+				// 		return;
+				// 	}
+				// 	this._game.sceneObjectMgr.intoStory(NiuniuPageDef.GAME_NAME, maplv.toString());
+				// 	break;
 				default:
 					break;
 			}
