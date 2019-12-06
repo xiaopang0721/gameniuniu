@@ -64,7 +64,7 @@ module gameniuniu.page {
 			this.initRoomInfo();
 			this._viewUI.btn_join.on(LEvent.CLICK, this, this.onBtnClickWithTween);
 
-			(this._viewUI.view as TongyongHudNqpPage).onOpen(this._game, NiuniuPageDef.GAME_NAME, false);
+			(this._viewUI.view as TongyongHudPage).onOpen(this._game, NiuniuPageDef.GAME_NAME, false);
 			this._game.playMusic(Path_game_niuniu.music_niuniu + "nn_bgm.mp3");
 
 			for (let index = 0; index < this._viewUI.box_right.numChildren; index++) {
