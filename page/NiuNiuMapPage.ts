@@ -868,10 +868,10 @@ module gameniuniu.page {
         private _senceItemFlyMgr: SenceItemFlyMgr;
         public addMoneyFly(fromPos: number, tarPos: number): void {
             if (!this._game.mainScene || !this._game.mainScene.camera) return;
-            let fromX = this._game.mainScene.camera.getScenePxByCellX(this._playerList[fromPos].x + this._playerList[fromPos].view_icon.x);
-            let fromY = this._game.mainScene.camera.getScenePxByCellY(this._playerList[fromPos].y + this._playerList[fromPos].view_icon.y);
-            let tarX = this._game.mainScene.camera.getScenePxByCellX(this._playerList[tarPos].x + this._playerList[tarPos].view_icon.x);
-            let tarY = this._game.mainScene.camera.getScenePxByCellY(this._playerList[tarPos].y + this._playerList[tarPos].view_icon.y);
+            let fromX = this._playerList[fromPos].x + this._playerList[fromPos].view_icon.x;
+            let fromY = this._playerList[fromPos].y + this._playerList[fromPos].view_icon.y;
+            let tarX = this._playerList[tarPos].x + this._playerList[tarPos].view_icon.x;
+            let tarY = this._playerList[tarPos].y + this._playerList[tarPos].view_icon.y;
             if (!this._senceItemFlyMgr) {
                 this._senceItemFlyMgr = new SenceItemFlyMgr(this._game);
             }
