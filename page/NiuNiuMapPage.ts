@@ -118,9 +118,9 @@ module gameniuniu.page {
         // 页面打开时执行函数
         protected onOpen(): void {
             super.onOpen();
-             //api充值不显示
+            //api充值不显示
             this._viewUI.btn_chongzhi.visible = !WebConfig.enterGameLocked;
-            
+
             this.initBeiClip();
             //是否断线重连
             if (!this._niuStory.isReConnected) {
@@ -182,6 +182,7 @@ module gameniuniu.page {
             } else {
                 this._curDiffTime -= diff;
             }
+            this._senceItemFlyMgr && this._senceItemFlyMgr.update(diff)
         }
 
         //倍数
@@ -864,27 +865,17 @@ module gameniuniu.page {
         }
 
         //金币变化 飘金币特效
+        private _senceItemFlyMgr: SenceItemFlyMgr;
         public addMoneyFly(fromPos: number, tarPos: number): void {
             if (!this._game.mainScene || !this._game.mainScene.camera) return;
-            let fromX = this._game.mainScene.camera.getScenePxByCellX(this._playerList[fromPos].x + this._playerList[fromPos].view_icon.x);
-            let fromY = this._game.mainScene.camera.getScenePxByCellY(this._playerList[fromPos].y + this._playerList[fromPos].view_icon.y);
-            let tarX = this._game.mainScene.camera.getScenePxByCellX(this._playerList[tarPos].x + this._playerList[tarPos].view_icon.x);
-            let tarY = this._game.mainScene.camera.getScenePxByCellY(this._playerList[tarPos].y + this._playerList[tarPos].view_icon.y);
-            for (let i: number = 0; i < MONEY_NUM; i++) {
-                let posBeginX = MathU.randomRange(fromX + 23, fromX + 70);
-                let posBeginY = MathU.randomRange(fromY + 23, fromY + 70);
-                let posEndX = MathU.randomRange(tarX + 23, tarX + 65);
-                let posEndY = MathU.randomRange(tarY + 23, tarY + 65);
-                let moneyImg: LImage = new LImage(PathGameTongyong.ui_tongyong_general + "icon_money.png");
-                moneyImg.scale(0.7, 0.7);
-                if (!moneyImg.parent) this._viewUI.addChild(moneyImg);
-                moneyImg.pos(posBeginX, posBeginY);
-                // Laya.Bezier 贝塞尔曲线  取得点
-                Laya.Tween.to(moneyImg, { x: posEndX }, i * MONEY_FLY_TIME, null);
-                Laya.Tween.to(moneyImg, { y: posEndY }, i * MONEY_FLY_TIME, null, Handler.create(this, () => {
-                    moneyImg.removeSelf();
-                }));
+            let fromX = this._playerList[fromPos].x + this._playerList[fromPos].view_icon.x;
+            let fromY = this._playerList[fromPos].y + this._playerList[fromPos].view_icon.y;
+            let tarX = this._playerList[tarPos].x + this._playerList[tarPos].view_icon.x;
+            let tarY = this._playerList[tarPos].y + this._playerList[tarPos].view_icon.y;
+            if (!this._senceItemFlyMgr) {
+                this._senceItemFlyMgr = new SenceItemFlyMgr(this._game);
             }
+            this._senceItemFlyMgr.init(fromX, fromY, tarX, tarY);
         }
 
         //金币变化 飘字clip
@@ -1159,7 +1150,7 @@ module gameniuniu.page {
                     this.clearMapInfoListen();
                     this._game.sceneObjectMgr.leaveStory(true);
                     logd("玩家发送离开地图协议，离开房间")
-                    // this.close();
+                    this.close();
                     break;
                 case this._viewUI.btn_continue://继续游戏
                     if (this._game.sceneObjectMgr.mainUnit) {
