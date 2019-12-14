@@ -264,7 +264,7 @@ module gameniuniu.manager {
 											card.targe_pos = new Vector2();
 										}
 										card.isFinalPos = false;
-										card.targe_pos.y = card.targe_pos.y + 20;
+										card.targe_pos.y = card.targe_pos.y - 20;
 									}
 								}
 							}
@@ -315,7 +315,7 @@ module gameniuniu.manager {
 										card.targe_pos = new Vector2();
 									}
 									card.isFinalPos = false;
-									card.targe_pos.y = card.targe_pos.y + 20;
+									card.targe_pos.y = card.targe_pos.y - 20;
 								}
 							}
 							count++;
@@ -388,7 +388,7 @@ module gameniuniu.manager {
 			let counter = 0;
 			for (let j: number = 0; j < 5; j++) {
 				for (let i: number = 0; i < this._cards.length / 5; i++) {
-					Laya.timer.once(150 * count, this, () => {
+					Laya.timer.once(120 * count, this, () => {
 						this._game.playSound(PathGameTongyong.music_tongyong + "fapai.mp3", false);
 						let card = this._cards[i * 5 + j];
 						if (!card) return;
@@ -501,7 +501,7 @@ module gameniuniu.manager {
 			for (let i = 0; i < cardLen; i++) {
 				let index = begin + i >= cardLen ? begin + i - cardLen : begin + i;
 
-				Laya.timer.once(500 + i * 1000, this, () => {
+				Laya.timer.once(700 + i * 1000, this, () => {
 					for (let j = 0; j < 5; j++) {
 						let card = this._cards[5 * index + j];
 						if (!card) return;

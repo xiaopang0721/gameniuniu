@@ -15,8 +15,7 @@ module gameniuniu.story {
 		PLAY_STATUS_MATCH_POINT = 9, // 配牛阶段
 		PLAY_STATUS_COMPARE = 10, // 比牌阶段
 		PLAY_STATUS_SETTLE = 11, // 结算阶段
-		PLAY_STATUS_SETTLE_INFO = 12, // 显示结算信息
-		PLAY_STATUS_SHOW_GAME = 13, // 本局展示阶段
+		PLAY_STATUS_SHOW_GAME = 12, // 本局展示阶段
 	}
 	export class NiuniuStory extends gamecomponent.story.StoryNormalBase {
 		private _niuMgr: NiuMgr;
@@ -137,9 +136,6 @@ module gameniuniu.story {
 					this._niuMgr.isShowOver = false;
 					break;
 				case MAP_STATUS.PLAY_STATUS_SETTLE:// 结算阶段
-
-					break;
-				case MAP_STATUS.PLAY_STATUS_SETTLE_INFO:// 显示结算信息
 
 					break;
 				case MAP_STATUS.PLAY_STATUS_SHOW_GAME:// 本局展示阶段

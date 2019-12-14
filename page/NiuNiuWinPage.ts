@@ -3,18 +3,18 @@
 */
 module gameniuniu.page {
 	export class NiuNiuWinPage extends game.gui.base.Page {
-		private _viewUI: ui.nqp.game_ui.niuniu.JieSuan_1UI;
+		private _viewUI: ui.ajqp.game_ui.tongyong.effect.Effect_nylUI;
 
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
 			super(v, onOpenFunc, onCloseFunc);
 			this._asset = [
-				Path_game_niuniu.atlas_game_ui + "niuniu.atlas",
+				PathGameTongyong.atlas_game_ui_tongyong + "nyl.atlas",
 			];
 		}
 
 		// 页面初始化函数
 		protected init(): void {
-			this._viewUI = this.createView('game_ui.niuniu.JieSuan_1UI');
+			this._viewUI = this.createView('game_ui.tongyong.effect.Effect_nylUI');
 			this.addChild(this._viewUI);
 		}
 

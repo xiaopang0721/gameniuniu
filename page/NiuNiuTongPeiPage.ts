@@ -1,20 +1,20 @@
 /**
 * name 
 */
-module gameniuniu.page{
+module gameniuniu.page {
 	export class NiuNiuTongPeiPage extends game.gui.base.Page {
-		private _viewUI: ui.ajqp.game_ui.tongyong.effect.Effect_zjtsUI;
+		private _viewUI: ui.ajqp.game_ui.tongyong.effect.Effect_zjtpUI;
 
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
 			super(v, onOpenFunc, onCloseFunc);
 			this._asset = [
-				PathGameTongyong.atlas_game_ui_tongyong+ "general.atlas",
+				PathGameTongyong.atlas_game_ui_tongyong + "zjtp.atlas",
 			];
 		}
 
 		// 页面初始化函数
 		protected init(): void {
-			this._viewUI = this.createView('game_ui.tongyong.effect.Effect_zjtsUI');
+			this._viewUI = this.createView('game_ui.tongyong.effect.Effect_zjtpUI');
 			this.addChild(this._viewUI);
 		}
 
