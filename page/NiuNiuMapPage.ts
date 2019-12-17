@@ -58,7 +58,7 @@ module gameniuniu.page {
         private _bankerLoseInfo: Array<number> = [];//庄家输牌信息集合
         private _bankerRateInfo: Array<Array<number>> = [];//抢最大同倍庄集合
         private _clipList: Array<NiuniuClip> = [];//飘字集合
-        private _imgdiList: Array<LImage> = [];//飘字集合
+        private _imgdiList: Array<LImage> = [];//飘字底集合
         private _room_config: any = [];//房间等级底注信息
         private _bankerIndex: number;//庄家位置
         private _bankerBenefit: number;//庄家总收益
@@ -160,7 +160,6 @@ module gameniuniu.page {
 
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
-            this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_GAME_ROUND_CHANGE, this, this.onUpdateGameRound);
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_GAME_NO, this, this.onUpdateGameNo);//牌局号
             this._game.sceneObjectMgr.on(NiuniuMapInfo.EVENT_COUNT_DOWN, this, this.onUpdateCountDown);//倒计时更新
             this._viewUI.xipai.ani_xipai.on(LEvent.COMPLETE, this, this.onWashCardOver);
@@ -241,7 +240,7 @@ module gameniuniu.page {
                     case MAP_STATUS.PLAY_STATUS_MATCH_POINT:// 配牛阶段
                         if (this._niuStory.isGaiPai) return;
                         this._viewUI.btn_tanpai.visible = true;
-                        this._viewUI.box_matchPoint.visible = true;
+                        // this._viewUI.box_matchPoint.visible = true;
                         break;
                 }
 
@@ -294,7 +293,6 @@ module gameniuniu.page {
                     this._isGameEnd = false;
                     this.initRoomConfig();
                     this.onUpdateGameNo();
-                    this.onUpdateGameRound();
                 }
             } else {
                 this.onUpdateUnitOffline();
@@ -974,6 +972,16 @@ module gameniuniu.page {
             if (this._curStatus >= MAP_STATUS.PLAY_STATUS_GAME_SHUFFLE) {
                 this._viewUI.paixie.ani_chupai.gotoAndStop(12);
             }
+            if (this._curStatus != MAP_STATUS.PLAY_STATUS_PUSH_CARD) {
+                this._viewUI.btn_tanpai.visible = false;
+                this._viewUI.box_matchPoint.visible = false;
+            }
+            if (this._curStatus != MAP_STATUS.PLAY_STATUS_BET) {
+                this._viewUI.box_betRate.visible = false;
+            }
+            if (this._curStatus != MAP_STATUS.PLAY_STATUS_GET_BANKER) {
+                this._viewUI.box_bankerRate.visible = false;
+            }
             this._viewUI.btn_continue.visible = this._curStatus == MAP_STATUS.PLAY_STATUS_SHOW_GAME;
             switch (this._curStatus) {
                 case MAP_STATUS.PLAY_STATUS_GAME_NONE:// 准备阶段
@@ -1040,38 +1048,37 @@ module gameniuniu.page {
                         this.updateMoney();
                     });
                     Laya.timer.once(2000, this, () => {
-                        if (this._mainPlayerBenefit > 0) {
-                            let rand = MathU.randomRange(1, 3);
-                            this._game.playSound(StringU.substitute(PathGameTongyong.music_tongyong + "win{0}.mp3", rand), true);
-                            this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_WIN);
+                        if (this._bankerLoseInfo.length == 2) {//庄家通杀
+                            this._game.playSound(Path_game_niuniu.music_niuniu + "zjtongchi.mp3", false);
+                            this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_TONGSHA);
+                        } else if (this._bankerWinInfo.length == 2) {//庄家通赔
+                            // this._game.playSound(Path_game_niuniu.music_niuniu + "zjtongpei.mp3", false);
+                            this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_TONGPEI);
                         } else {
-                            if (this._bankerLoseInfo.length == 2) {//庄家通杀
-                                this._game.playSound(Path_game_niuniu.music_niuniu + "zjtongchi.mp3", false);
-                                this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_TONGSHA);
+                            if (this._mainPlayerBenefit > 0) {
+                                let rand = MathU.randomRange(1, 3);
+                                this._game.playSound(StringU.substitute(PathGameTongyong.music_tongyong + "win{0}.mp3", rand), true);
+                                this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_WIN);
                             }
                         }
                     });
-                    Laya.timer.once(4000, this, () => {
-                        if (this._mainPlayerBenefit > 0) {
-                            if (this._bankerLoseInfo.length == 2) {//庄家通杀
-                                this._game.playSound(Path_game_niuniu.music_niuniu + "zjtongchi.mp3", false);
-                                this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_TONGSHA);
+                    if (this._bankerLoseInfo.length == 2 || this._bankerWinInfo.length == 2) { //庄家通杀或通赔后
+                        Laya.timer.once(4000, this, () => {
+                            if (this._mainPlayerBenefit > 0) { //再播你赢了
+                                let rand = MathU.randomRange(1, 3);
+                                this._game.playSound(StringU.substitute(PathGameTongyong.music_tongyong + "win{0}.mp3", rand), true);
+                                this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_WIN);
+                            } else { //再播你输了
+                                let rand = MathU.randomRange(1, 4);
+                                this._game.playSound(StringU.substitute(PathGameTongyong.music_tongyong + "lose{0}.mp3", rand), true);
                             }
-                            else if (this._bankerWinInfo.length == 2) {//庄家通赔
-                                // this._game.playSound(Path_game_niuniu.music_niuniu + "zjtongpei.mp3", false);
-                                this._game.uiRoot.HUD.open(NiuniuPageDef.PAGE_NIUNIU_TONGPEI);
-                            }
-                        } else {
-                            let rand = MathU.randomRange(1, 4);
-                            this._game.playSound(StringU.substitute(PathGameTongyong.music_tongyong + "lose{0}.mp3", rand), true);
-                        }
-                    });
+                        });
+                    }
                     break;
                 case MAP_STATUS.PLAY_STATUS_SHOW_GAME:// 本局展示阶段
                     this._niuStory.isReConnected = false;
                     this._isDoBanker = false;
                     this._isDoBet = false;
-                    this._pageHandle.pushClose({ id: NiuniuPageDef.PAGE_NIUNIU_TONGSHA, parent: this._game.uiRoot.HUD });
                     if (this._game.sceneObjectMgr.mainPlayer.playerInfo.money < this._room_config[1]) {
                         TongyongPageDef.ins.alertRecharge(StringU.substitute("老板，您的金币少于{0}哦~\n补充点金币去大杀四方吧~", this._room_config[1]), () => {
                             this._game.uiRoot.general.open(DatingPageDef.PAGE_CHONGZHI);
@@ -1253,16 +1260,6 @@ module gameniuniu.page {
             }
         }
 
-        private onUpdateGameRound(): void {
-            if (!this._niuMapInfo) return;
-            if (this._niuMapInfo.GetRound() && this._niuMapInfo.GetCardRoomGameNumber()) {
-                this._viewUI.txt_round.visible = true;
-                this._viewUI.txt_round.text = StringU.substitute("局数：{0}/{1}", this._niuMapInfo.GetRound(), this._niuMapInfo.GetCardRoomGameNumber());
-            } else {
-                this._viewUI.txt_round.visible = false;
-            }
-        }
-
         private onUpdateGameNo(): void {
             if (!this._niuMapInfo) return;
             if (this._niuMapInfo.GetGameNo()) {
@@ -1312,7 +1309,6 @@ module gameniuniu.page {
             this._viewUI.paixie.ani_chupai.stop();
             this._viewUI.box_menu.visible = false;
             this._viewUI.box_menu.zOrder = 99;
-            this._viewUI.txt_round.visible = false;
 
             this._playerList = [];
             for (let i: number = 0; i < NiuMgr.MAX_NUM; i++) {
@@ -1413,7 +1409,6 @@ module gameniuniu.page {
         private clearMapInfoListen(): void {
             this._game.sceneObjectMgr.off(NiuniuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
             this._game.sceneObjectMgr.off(NiuniuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
-            this._game.sceneObjectMgr.off(NiuniuMapInfo.EVENT_GAME_ROUND_CHANGE, this, this.onUpdateGameRound);
             this._game.sceneObjectMgr.off(NiuniuMapInfo.EVENT_GAME_NO, this, this.onUpdateGameNo);//牌局号
             this._game.sceneObjectMgr.off(NiuniuMapInfo.EVENT_COUNT_DOWN, this, this.onUpdateCountDown);//倒计时更新
             this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_ADD_UNIT, this, this.onUnitAdd);
