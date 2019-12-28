@@ -49,7 +49,6 @@ module gameniuniu.data {
 			this.size = 0.2;
 			this._mainIdx = index;
 			this.rotateAngle = Math.PI / 6;
-			this.toggleDistance = 0;
 		}
 
 		fapai() {
@@ -113,7 +112,6 @@ module gameniuniu.data {
 			if (!this.targe_pos) {
 				this.targe_pos = new Vector2();
 			}
-			this.toggleEnable = false;
 			this.isFinalPos = false;
 			this.targe_pos.x = 590 + this.index * 28;
 			this.targe_pos.y = 510;

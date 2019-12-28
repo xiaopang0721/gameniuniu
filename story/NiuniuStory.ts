@@ -125,7 +125,6 @@ module gameniuniu.story {
 					this.onDealCards();
 					break;
 				case MAP_STATUS.PLAY_STATUS_MATCH_POINT:// 配牛阶段
-					this._niuMgr.setToggleEnable();
 					this._niuMgr.isReKaiPai = false;
 					break;
 				case MAP_STATUS.PLAY_STATUS_COMPARE:// 比牌阶段
@@ -209,9 +208,6 @@ module gameniuniu.story {
 				if (status > MAP_STATUS.PLAY_STATUS_MATCH_POINT) {
 					this._niuMgr.regaipai();
 				} else {
-					if (status == MAP_STATUS.PLAY_STATUS_MATCH_POINT) {
-						this._niuMgr.setToggleEnable();
-					}
 					this._niuMgr.refapai();
 				}
 				this._niuMgr.reloadFanpai();

@@ -421,15 +421,6 @@ module gameniuniu.manager {
 			}
 		}
 
-		//可以点了
-		setToggleEnable() {
-			for (let i: number = 0; i < 5; i++) {
-				let card = this._cards[i];
-				if (!card) return;
-				card.toggleEnable = true;
-			}
-		}
-
 		//盖牌
 		gaipai() {
 			for (let i: number = 0; i < 5; i++) {
